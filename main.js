@@ -1,5 +1,6 @@
 const { app, BrowserWindow } = require('electron');
-const axios = require('axios');
+require('update-electron-app')()
+
 
 const fetch = require('electron-fetch').default
 
@@ -7,7 +8,6 @@ const client_id = "jkbd76wjn7e1npbw98l2s1hrc270mm";
 const url = "https://id.twitch.tv/oauth2/authorize?response_type=token&client_id=jkbd76wjn7e1npbw98l2s1hrc270mm&redirect_uri=http://localhost:3000&scope=chat%3Aread+chat%3Aedit"
 
 			
-
 var access_token;
 
 
@@ -17,9 +17,7 @@ const createWindow = () => {
     width: 600,
     height: 800,
   });
-    // win.loadFile("index.html")    
   win.loadURL(url)
-  // win.loadURL("https://dashboard.twitch.tv/popout/u/molera/stream-manager/chat")
   function runToken(token) {
     let client_id = '';
     fetch(
