@@ -16,6 +16,7 @@
     "@electron-forge/maker-rpm": "^6.0.1",
     "@electron-forge/maker-squirrel": "^6.0.1",
     "@electron-forge/maker-zip": "^6.0.1",
+    "@electron-forge/publisher-github": "^6.0.1",
     "electron": "^21.2.2"
   },
   "dependencies": {
@@ -29,6 +30,18 @@
   },
   "config": {
     "forge": {
+      "publishers": [
+        {
+          "name": "@electron-forge/publisher-github",
+          "config": {
+            "repository": {
+              "owner": "fabyday",
+              "name": "twtichchat-electron"
+            },
+            "prerelease": false,
+            "draft": true
+          }
+        }],
       "packagerConfig": {},
       "makers": [
         {
