@@ -72,20 +72,20 @@ jobs:
         uses: actions/setup-node@v3.5.1
         with:
           node-version: 16.x
-      - name: Set MacOS signing certs
-        if: matrix.os == 'macOS-latest'
-        run: chmod +x tools/add-macos-cert.sh && ./tools/add-macos-cert.sh
-        env:
-          MACOS_CERT_P12: ${{ secrets.MACOS_CERT_P12 }}
-          MACOS_CERT_PASSWORD: ${{ secrets.MACOS_CERT_PASSWORD }}
-      - name: Set Windows signing certificate
-        if: matrix.os == 'windows-latest'
-        continue-on-error: true
-        id: write_file
-        uses: timheuer/base64-to-file@v1
-        with:
-          fileName: 'win-certificate.pfx'
-          encodedString: ${{ secrets.WINDOWS_CODESIGN_P12 }}
+      # - name: Set MacOS signing certs
+      #   if: matrix.os == 'macOS-latest'
+      #   run: chmod +x tools/add-macos-cert.sh && ./tools/add-macos-cert.sh
+      #   env:
+      #     MACOS_CERT_P12: ${{ secrets.MACOS_CERT_P12 }}
+      #     MACOS_CERT_PASSWORD: ${{ secrets.MACOS_CERT_PASSWORD }}
+      # - name: Set Windows signing certificate
+      #   if: matrix.os == 'windows-latest'
+      #   continue-on-error: true
+      #   id: write_file
+      #   uses: timheuer/base64-to-file@v1
+      #   with:
+      #     fileName: 'win-certificate.pfx'
+      #     encodedString: ${{ secrets.WINDOWS_CODESIGN_P12 }}
       - name: Install
         run: yarn --network-timeout 100000 || yarn --network-timeout 100000 || yarn --network-timeout 100000
       - name: Make
