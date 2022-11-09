@@ -1,34 +1,15 @@
 const { app, BrowserWindow } = require('electron');
 const axios = require('axios');
 
-const tmi = require('tmi.js');
+const fetch = require('electron-fetch').default
 
 const client_id = "jkbd76wjn7e1npbw98l2s1hrc270mm";
 const url = "https://id.twitch.tv/oauth2/authorize?response_type=token&client_id=jkbd76wjn7e1npbw98l2s1hrc270mm&redirect_uri=http://localhost:3000&scope=chat%3Aread+chat%3Aedit"
 
-// const client = new tmi.Client({
-// 	options: { debug: true },
-// 	identity: {
-// 		username: 'my_bot_name',
-// 		password: 'oauth:my_bot_token'
-// 	},
-// 	channels: [ 'my_name' ]
-// });
-
-// client.connect();
-
-// client.on('message', (channel, tags, message, self) => {
-// 	// Ignore echoed messages.
-// 	if(self) return;
-
-// 	if(message.toLowerCase() === '!hello') {
-// 		// "@alca, heya!"
-// 		client.say(channel, `@${tags.username}, heya!`);
-// 	}
-// });
 			
 
 var access_token;
+
 
 
 const createWindow = () => {
@@ -36,50 +17,64 @@ const createWindow = () => {
     width: 600,
     height: 800,
   });
-    win.loadFile("index.html")    
+    // win.loadFile("index.html")    
   win.loadURL(url)
+  // win.loadURL("https://dashboard.twitch.tv/popout/u/molera/stream-manager/chat")
+  function runToken(token) {
+    let client_id = '';
+    fetch(
+        'https://id.twitch.tv/oauth2/validate',
+        {
+            headers: {
+                'Accept': 'application/json',
+                'Authorization': `Bearer ${token}`
+            }
+        }
+    )
+    .then(resp => resp.json())
+    .then(resp => {
+        client_id = resp.client_id;
+        return fetch(
+            'https://api.twitch.tv/helix/users',
+            {
+                headers: {
+                    'Accept': 'application/json',
+                    'Client-ID': client_id,
+                    'Authorization': `Bearer ${token}`
+                }
+            }
+        )
+    })
+    .then(resp => resp.json())
+    .then(resp => {
+        console.log('Got user', resp);
+        
+        // ipc
+        const name = resp.data[0]['login']
+        console.log(name)
+        // win.webContents.send('twitch_user', resp.data[0]);
+        win.loadURL('https://dashboard.twitch.tv/popout/u/'+name+'/stream-manager/chat')
+    })
+    .catch(err => {
+        console.log('An Error Occurred', err);
+    });
+  }
 
-  win.webContents.on("did-fail-load", ()=>{
-    const acc_url = new URL( win.webContents.getURL());
-    access_token = new URLSearchParams(acc_url.hash.substring(1)).get('access_token')
-    console.log(access_token)
-    win.loadFile("index.html")
-
-
-
-
-    const client = new tmi.Client({
-	options: { debug: true },
-	identity: {
-		username: 'my_bot_name',
-		password: 'oauth:'+access_token
-	},
-	channels: [ '#' ]
+  // 'will-navigate' is an event emitted when the window.location changes
+// newUrl should contain the tokens you need
+  win.webContents.on('will-navigate', function (event, newUrl) {
+  console.log("test", newUrl);
+  let url = new URL(newUrl);
+  let params = new URLSearchParams(url.hash.slice(1));
+  if (params.get('access_token')) {
+    // we got a token to use
+    runToken(params.get('access_token'));
+}
+  // More complex code to handle tokens goes here
 });
 
-client.connect();
-
-client.on('message', (channel, tags, message, self) => {
-	// Ignore echoed messages.
-	if(self) return;
-
-	if(message.toLowerCase() === '!hello') {
-		// "@alca, heya!"
-		client.say(channel, `@${tags.username}, heya!`);
-	}
-});
-    
-})
-console.log(win.webContents.getURL())
-//   console.log(win.webContents.getURL());
-  console.log("test")
-// axios.get(url).then((res)=>{console.log(res)
 
 
-// })
-// win.loadFile('index.html');
-
-//   win.loadURL("https://www.naver.com")
 };
 
 app.whenReady().then(() => {
