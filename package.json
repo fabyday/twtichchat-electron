@@ -15,13 +15,16 @@
     "type": "git",
     "url": "https://github.com/fabyday/twtichchat-electron.git"
   },
-  "keywords": ["twitch-chat"],
+  "keywords": [
+    "twitch-chat"
+  ],
   "author": {
     "name": "fabyday",
     "email": "rohjihyun95@gmail.com"
   },
   "license": "MIT",
   "dependencies": {
+    "@electron-forge/publisher-github": "^6.0.1",
     "electron-squirrel-startup": "^1.0.0"
   },
   "devDependencies": {
