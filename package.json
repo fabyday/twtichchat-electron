@@ -1,76 +1,35 @@
 {
-  "name": "twitchchat",
+  "name": "twitchchat-electron",
+  "productName": "twitchchat-electron",
   "version": "1.0.0",
-  "main": "main.js",
+  "description": "My Electron application description",
+  "main": "src/index.js",
   "scripts": {
     "start": "electron-forge start",
     "package": "electron-forge package",
     "make": "electron-forge make",
-    "publish": "electron-forge publish"
+    "publish": "electron-forge publish",
+    "lint": "echo \"No linting configured\""
   },
-  "author": "fabyday",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/fabyday/twtichchat-electron.git"
+  },
+  "keywords": ["twitch-chat"],
+  "author": {
+    "name": "fabyday",
+    "email": "rohjihyun95@gmail.com"
+  },
   "license": "MIT",
+  "dependencies": {
+    "electron-squirrel-startup": "^1.0.0"
+  },
   "devDependencies": {
     "@electron-forge/cli": "^6.0.1",
     "@electron-forge/maker-deb": "^6.0.1",
     "@electron-forge/maker-rpm": "^6.0.1",
     "@electron-forge/maker-squirrel": "^6.0.1",
     "@electron-forge/maker-zip": "^6.0.1",
-    "@electron-forge/publisher-github": "^6.0.1",
-    "electron": "^21.2.2"
-  },
-  "dependencies": {
-    "electron-fetch": "^1.9.1",
-    "electron-squirrel-startup": "^1.0.0",
-    "update-electron-app": "^2.0.1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/fabyday/twtichchat-electron.git"
-  },
-  "config": {
-    "forge": {
-      "publishers": [
-        {
-          "name": "@electron-forge/publisher-github",
-          "config": {
-            "repository": {
-              "owner": "fabyday",
-              "name": "twtichchat-electron"
-            },
-            "prerelease": false,
-            "draft": true
-          }
-        }],
-      "packagerConfig": {},
-      "makers": [
-        {
-          "name": "@electron-forge/maker-squirrel",
-          "config": {}
-        },
-        {
-          "name": "@electron-forge/maker-zip",
-          "platforms": [
-            "darwin"
-          ]
-        },
-        {
-          "name": "@electron-forge/maker-deb",
-          "config": {}
-        },
-        {
-          "name": "@electron-forge/maker-rpm",
-          "config": {}
-        }
-      ]
-    }
-  },
-  "bugs": {
-    "url": "https://github.com/fabyday/twtichchat-electron/issues"
-  },
-  "homepage": "https://github.com/fabyday/twtichchat-electron#readme",
-  "keywords": [
-    "chat"
-  ],
-  "description": ""
+    "electron": "21.2.3"
+  }
 }

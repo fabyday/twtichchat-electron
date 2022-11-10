@@ -1,6 +1,18 @@
 module.exports = {
   packagerConfig: {},
   rebuildConfig: {},
+  publishers: [
+        {
+          "name": "@electron-forge/publisher-github",
+          "config": {
+            "repository": {
+              "owner": "fabyday",
+              "name": "twtichchat-electron"
+            },
+            "prerelease": false,
+            "draft": true
+          }
+        }],
   makers: [
     {
       name: '@electron-forge/maker-squirrel',
